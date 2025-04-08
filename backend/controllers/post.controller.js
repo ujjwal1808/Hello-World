@@ -14,10 +14,6 @@ import Notification from "../models/notification.model.js";
   
 	   // default value in case location fetch fails
   
-	
-		
-		
-  
 	  // Create a new post object
 	  const newPost = new Post({
 		author: req.user._id, // Assume user authentication middleware is in place

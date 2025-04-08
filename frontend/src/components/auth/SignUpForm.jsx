@@ -9,6 +9,7 @@ const SignUpForm = () => {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [role, setRole] = useState("");
 
 	const queryClient = useQueryClient();
 
@@ -28,7 +29,7 @@ const SignUpForm = () => {
 
 	const handleSignUp = (e) => {
 		e.preventDefault();
-		signUpMutation({ name, username, email, password });
+		signUpMutation({ name, username, email, password, role });
 	};
 
 	return (
@@ -49,6 +50,23 @@ const SignUpForm = () => {
 				className='input input-bordered w-full'
 				required
 			/>
+
+			<label>Select your role:</label>
+			<select
+				name="role"
+				id="role-select"
+				className="input input-bordered w-full mt-[-14px]"
+				value={role}
+				onChange={(e) => setRole(e.target.value)}
+				required
+			>
+				<option value="">Select a role</option>
+				<option value="Student">Student</option>
+				<option value="Working Professional">Working Professional</option>
+				<option value="Freelancer">Freelancer</option>
+				<option value="Entrepreneur">Entrepreneur</option>
+				<option value="Job Seeker">Job Seeker</option>
+			</select>
 			<input
 				type='email'
 				placeholder='Email'

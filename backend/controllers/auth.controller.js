@@ -5,9 +5,9 @@ import jwt from "jsonwebtoken";
 
 export const signup = async (req, res) => {
 	try {
-		const { name, username, email, password } = req.body;
+		const { name, username, email, password, role } = req.body;
 
-		if (!name || !username || !email || !password) {
+		if (!name || !username || !email || !password || !role) {
 			return res.status(400).json({ message: "All fields are required" });
 		}
 		const existingEmail = await User.findOne({ email });
@@ -32,6 +32,7 @@ export const signup = async (req, res) => {
 			email,
 			password: hashedPassword,
 			username,
+			headline: role
 		});
 
 		await user.save();
