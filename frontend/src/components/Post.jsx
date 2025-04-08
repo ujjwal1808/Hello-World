@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
-import { Loader, MessageCircle, Send, Share2, ThumbsUp, Trash2 } from "lucide-react";
+import { Loader, MapPin, MessageCircle, Send, Share2, ThumbsUp, Trash2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 import PostAction from "./PostAction";
+import axios from "axios";
 
 const Post = ({ post }) => {
 	const { postId } = useParams();
@@ -17,8 +18,11 @@ const Post = ({ post }) => {
 	const [comments, setComments] = useState(post.comments || []);
 	const isOwner = authUser._id === post.author._id;
 	const isLiked = post.likes.includes(authUser._id);
-
 	const queryClient = useQueryClient();
+
+
+
+
 
 	const { mutate: deletePost, isPending: isDeletingPost } = useMutation({
 		mutationFn: async () => {
@@ -104,10 +108,14 @@ const Post = ({ post }) => {
 								<h3 className='font-semibold'>{post.author.name}</h3>
 							</Link>
 							<p className='text-xs text-info'>{post.author.headline}</p>
-							<p className='text-xs text-info'>
-								{post.createdAt}
+							<p className='text-xs text-info flex items-center gap-2'>
+								{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+								<p> | </p>
+								<p className="flex items-center"><MapPin size={12} />  {post.location}</p>
+								
 							</p>
 						</div>
+							
 					</div>
 					{isOwner && (
 						<button onClick={handleDeletePost} className='text-red-500 hover:text-red-700'>

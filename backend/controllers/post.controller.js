@@ -5,23 +5,29 @@ import Notification from "../models/notification.model.js";
 
   
   // Create Post Controller
-export const createPost = async (req, res) => {
+  export const createPost = async (req, res) => {
 	try {
-	  const { content, image, scheduledPostDate } = req.body;
+	  const { content, image, location, scheduledPostDate } = req.body;
   
 	  // Determine the post's status based on scheduledPostDate
 	  const status = scheduledPostDate ? "scheduled" : "published";
+  
+	   // default value in case location fetch fails
+  
+	
+		
+		
   
 	  // Create a new post object
 	  const newPost = new Post({
 		author: req.user._id, // Assume user authentication middleware is in place
 		content,
-		image: image || null, // Use null if no image provided
+		location, // This will always have a string
+		image: image || null,
 		scheduledPostDate: scheduledPostDate || null,
 		status,
 	  });
   
-	  // Save post to the database
 	  await newPost.save();
   
 	  res.status(201).json({ message: "Post created successfully!", post: newPost });
@@ -30,6 +36,7 @@ export const createPost = async (req, res) => {
 	  res.status(500).json({ message: "Server error while creating the post." });
 	}
   };
+  
 // export const createPost = async (req, res) => {
 // 	try {
 // 	  const { content, userId, scheduledPostDate } = req.body;

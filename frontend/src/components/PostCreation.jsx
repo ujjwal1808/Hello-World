@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { Image, Loader } from "lucide-react";
 import DatePicker from "react-datepicker"; // Import the date picker
 import "react-datepicker/dist/react-datepicker.css"; // Import date picker styles
+import axios from "axios";
 
 const PostCreation = ({ user }) => {
   const [content, setContent] = useState("");
@@ -14,6 +15,21 @@ const PostCreation = ({ user }) => {
   const [isPickerVisible, setIsPickerVisible] = useState(false); // Controls date picker visibility
 
   const queryClient = useQueryClient();
+
+
+
+	const [currLocation, setCurrLocation] = useState('')
+	useEffect(() => {
+	  getLocation();
+	}, [])
+
+	const getLocation = async() =>{
+		const response = await fetch('https://ipapi.co/json');
+    const data = await response.json();
+    setCurrLocation(data.city);
+	}
+	
+
 
   const { mutate: createPostMutation, isPending } = useMutation({
     mutationFn: async (postData) => {
@@ -35,9 +51,12 @@ const PostCreation = ({ user }) => {
   const handlePostCreation = async () => {
     try {
       const postData = { content };
+      postData.location = currLocation;
       if (image) {
         postData.image = await readFileAsDataURL(image); // Convert image to base64
       }
+      
+      
   
       if (scheduledDate) {
         postData.scheduledPostDate = scheduledDate;

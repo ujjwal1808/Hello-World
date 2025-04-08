@@ -4,6 +4,7 @@ import { useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import Sidebar from "../components/Sidebar";
 import Post from "../components/Post";
+import LocSearch from "../components/LocSearch";
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -89,8 +90,10 @@ const PostPage = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      
       <div className="hidden lg:block lg:col-span-1">
         <Sidebar />
+        
       </div>
       <div className="col-span-1 lg:col-span-3">
         {/* Display Post */}
@@ -126,6 +129,7 @@ const PostPage = () => {
             Schedule Post
           </button>
         </form>
+        
 
         {/* Display Scheduled Information */}
         {isScheduled && scheduledDate && (
