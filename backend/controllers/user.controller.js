@@ -43,6 +43,22 @@ export const getPublicProfile = async (req, res) => {
   }
 };
 
+// Get All Users Controller
+export const getAllUsers = async (req, res) => {
+  // res.status(200).json([{ name: "John" }, { name: "Jane" }]); // test response
+
+  try {
+    const user = await User.find({});
+    console.log("all product fetched");
+    console.log(user);
+    res.send(user)
+    
+  } catch (error) {
+    console.log(error)
+  }
+    
+};
+
 // Update Profile Controller
 export const updateProfile = async (req, res) => {
   try {
@@ -101,3 +117,4 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error, unable to update profile" });
   }
 };
+

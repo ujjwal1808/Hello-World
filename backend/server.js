@@ -13,6 +13,8 @@ import { connectDB } from "./lib/db.js";
 import { log } from "console";
 import { Server } from "socket.io";
 import chat from "./models/chats.model.js";
+import User from "./models/user.model.js";
+import Post from "./models/post.model.js";
 
 
 dotenv.config();
@@ -21,7 +23,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 if (process.env.NODE_ENV !== "production") {
-	app.use(cors({origin: "http://localhost:5173",credentials: true,}));
+	const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+
+	app.use(cors({
+		origin: function (origin, callback) {
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error('Not allowed by CORS'));
+			}
+		},
+		credentials: true
+	}));
 }
 
 app.use(express.json({ limit: "5mb" })); // parse JSON request bodies
@@ -33,6 +46,17 @@ app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/connections", connectionRoutes);
 app.use("/api/v1/chats", chatRoutes);
+// app.use("/api/v1/user", chatRoutes);
+
+app.get("/getallusers", async (req, res)=>{
+	const user = await User.find({});
+    res.send(user)
+})
+
+app.get("/getallposts", async (req, res)=>{
+	const posts = await Post.find({});
+	res.send(posts)
+})
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/frontend/dist")));
@@ -50,7 +74,7 @@ const server = app.listen(PORT, () => {
 const io = new Server(server, {
 	pingTimeout: 60000,
 	cors: {
-	  origin: "http://localhost:5173"||"http://192.168.29.72:5173",
+	  origin: "http://localhost:5173"||"http://192.168.29.72:5173"||"http://localhost:3000",
 	  // credentials: true,
 	},
   });
