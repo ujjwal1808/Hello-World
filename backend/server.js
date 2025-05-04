@@ -15,6 +15,12 @@ import communityRoutes from './routes/communityRoutes.js';
 
 import { connectDB } from "./lib/db.js";
 import { Server } from "socket.io";
+<<<<<<< HEAD
+=======
+import chat from "./models/chats.model.js";
+import User from "./models/user.model.js";
+import Post from "./models/post.model.js";
+>>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
 
 // Resolve __dirname in ES Module context
 const __filename = fileURLToPath(import.meta.url);
@@ -25,7 +31,26 @@ dotenv.config();
 
 // Create Express app
 const app = express();
+<<<<<<< HEAD
 const PORT = process.env.PORT || 8000;
+=======
+const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
+if (process.env.NODE_ENV !== "production") {
+	const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000'];
+
+	app.use(cors({
+		origin: function (origin, callback) {
+			if (!origin || allowedOrigins.includes(origin)) {
+				callback(null, true);
+			} else {
+				callback(new Error('Not allowed by CORS'));
+			}
+		},
+		credentials: true
+	}));
+}
+>>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
 
 // Connect to MongoDB
 connectDB();
@@ -45,7 +70,22 @@ app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/chats", chatRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/connections", connectionRoutes);
+<<<<<<< HEAD
 app.use("/api/v1/community", communityRoutes);
+=======
+app.use("/api/v1/chats", chatRoutes);
+// app.use("/api/v1/user", chatRoutes);
+
+app.get("/getallusers", async (req, res)=>{
+	const user = await User.find({});
+    res.send(user)
+})
+
+app.get("/getallposts", async (req, res)=>{
+	const posts = await Post.find({});
+	res.send(posts)
+})
+>>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
@@ -64,8 +104,13 @@ const server = app.listen(PORT, () => {
 const io = new Server(server, {
 	pingTimeout: 60000,
 	cors: {
+<<<<<<< HEAD
 		origin: "http://localhost:5173",
 		credentials: true,
+=======
+	  origin: "http://localhost:5173"||"http://192.168.29.72:5173"||"http://localhost:3000",
+	  // credentials: true,
+>>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
 	},
 });
 
