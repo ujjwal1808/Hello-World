@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { Home, UserPlus, Bell } from "lucide-react";
 
 export default function Sidebar({ user }) {
+	if (!user) return null; // Optional: replace with a loader if needed
+
 	return (
 		<div className='bg-secondary rounded-lg shadow'>
 			<div className='p-4 text-center'>
@@ -20,7 +22,7 @@ export default function Sidebar({ user }) {
 					<h2 className='text-xl font-semibold mt-2'>{user.name}</h2>
 				</Link>
 				<p className='text-info'>{user.headline}</p>
-				<p className='text-info text-xs'>{user.connections.length} connections</p>
+				<p className='text-info text-xs'>{user.connections?.length || 0} connections</p>
 			</div>
 			<div className='border-t border-base-100 p-4'>
 				<nav>
@@ -60,3 +62,4 @@ export default function Sidebar({ user }) {
 		</div>
 	);
 }
+   

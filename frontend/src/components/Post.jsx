@@ -108,12 +108,11 @@ const Post = ({ post }) => {
 								<h3 className='font-semibold'>{post.author.name}</h3>
 							</Link>
 							<p className='text-xs text-info'>{post.author.headline}</p>
-							<p className='text-xs text-info flex items-center gap-2'>
-								{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
-								<p> | </p>
-								<p className="flex items-center"><MapPin size={12} />  {post.location}</p>
-								
-							</p>
+							<div className='text-xs text-info flex items-center gap-2'>
+							<span>{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}</span>
+							<span>|</span>
+							<span className="flex items-center"><MapPin size={12} /> {post.location}</span>
+							</div>
 						</div>
 							
 					</div>

@@ -11,17 +11,17 @@ export default {
 		themes: [
 			{
 				linkedin: {
-					primary: "#4B0082", // Hello world purple
-					secondary: "#FFFFFF", // White
-					accent: "#7FC15E", // Hello world  Green (for accents)
-					neutral: "#000000", // Black (for text)
-					"base-100": "#E6E6FA", // Light Gray (background)
-					info: "#5E5E5E", // Dark Gray (for secondary text)
-					success: "#057642", // Dark Green (for success messages)
-					warning: "#F5C75D", // Yellow (for warnings)
-					error: "#CC1016", // Red (for errors)
+					primary: "#6C63FF",       // Soft Indigo (Brand color - elegant & modern)
+					secondary: "#FFFFFF",     // White (Clean secondary elements)
+					accent: "#62C370",        // Fresh Green (Subtle & positive accent)
+					neutral: "#1F2937",        // Dark Gray (Rich, deep text color)
+					"base-100": "#F9FAFB",    // Off-white / light gray (Clean background)
+					info: "#3B82F6",          // Blue (For informational texts and icons)
+					success: "#10B981",       // Emerald green (Positive & modern)
+					warning: "#FBBF24",       // Amber (Bright and accessible warnings)
+					error: "#EF4444",         // Strong Red (Clear and readable errors)
 				},
 			},
 		],
-	},
+	}	
 };

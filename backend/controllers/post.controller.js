@@ -1,6 +1,7 @@
 import cloudinary from "../lib/cloudinary.js";
 import Post from '../models/post.model.js';
 import Notification from "../models/notification.model.js";
+import User from "../models/user.model.js"; // Import User model
 // import { sendCommentNotificationEmail } from "../emails/emailHandlers.js";
 
   
@@ -58,7 +59,7 @@ import Notification from "../models/notification.model.js";
 // 	}
 //   };
   
-import User from "../models/user.model.js"; // Import User model
+
 
 export const getFeedPosts = async (req, res) => {
   try {

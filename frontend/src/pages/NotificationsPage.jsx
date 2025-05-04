@@ -16,6 +16,15 @@ const NotificationsPage = () => {
 		queryFn: () => axiosInstance.get("/notifications"),
 	});
 
+	const { data: communityInvites, refetch: refetchCommunityInvites } = useQuery({
+		queryKey: ["communityInvites"],
+		queryFn: async () => {
+			const res = await axiosInstance.get("/community/invites");
+			return res.data.invites || [];
+		},
+		enabled: !!authUser,
+	});
+
 	const { mutate: markAsReadMutation } = useMutation({
 		mutationFn: (id) => axiosInstance.put(`/notifications/${id}/read`),
 		onSuccess: () => {
@@ -28,6 +37,14 @@ const NotificationsPage = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries(["notifications"]);
 			toast.success("Notification deleted");
+		},
+	});
+
+	const { mutate: acceptInvite } = useMutation({
+		mutationFn: async (communityId) => axiosInstance.post(`/community/${communityId}/accept-invite`),
+		onSuccess: () => {
+			refetchCommunityInvites();
+			queryClient.invalidateQueries({ queryKey: ["myCommunities"] });
 		},
 	});
 
@@ -103,6 +120,27 @@ const NotificationsPage = () => {
 			<div className='col-span-1 lg:col-span-3'>
 				<div className='bg-white rounded-lg shadow p-6'>
 					<h1 className='text-2xl font-bold mb-6'>Notifications</h1>
+
+					{communityInvites && communityInvites.length > 0 && (
+						<div className='mb-4'>
+							<div className='font-medium mb-1'>Community Invites</div>
+							<ul className='space-y-2'>
+								{communityInvites.map((invite) => (
+									<li key={invite._id} className='flex justify-between items-center bg-gray-100 rounded px-2 py-1'>
+										<span>
+											{invite.name} (from {invite.createdBy?.name || invite.createdBy?.username || "Unknown"})
+										</span>
+										<button
+											className='ml-2 px-2 py-1 bg-primary text-white rounded text-xs hover:bg-primary-dark'
+											onClick={() => acceptInvite(invite._id)}
+										>
+											Accept
+										</button>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 
 					{isLoading ? (
 						<p>Loading notifications...</p>
