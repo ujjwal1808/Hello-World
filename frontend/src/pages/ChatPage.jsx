@@ -132,7 +132,7 @@ console.log(connections);
               <img src={user.profilePicture} alt={user.name} className="w-10 h-10 rounded-full mr-3" />
               <div>
                 <h3 className="text-lg font-semibold">{user.name}</h3>
-              </div>''
+              </div>
             </div>
           ))}
         </div>
