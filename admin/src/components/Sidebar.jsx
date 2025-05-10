@@ -35,7 +35,10 @@ const Sidebar = () => {
           </svg>
         )
       },
+<<<<<<< HEAD
       
+=======
+>>>>>>> 46d611a9141039682cd703e0f6688a4089e2c87c
     ];
   
     // Handle item click

@@ -2,21 +2,34 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 const UserManagement = () => {
-const [user,setUser] = useState([])
+const [user,setUser] = useState([]);
+const [posts, setPosts] = useState([]);
+const [postList, setPostList] = useState([])
 
   useEffect(() => {
     axios.get('http://localhost:8000/getallusers', {
         withCredentials: true
     })
         .then((response) => {
-              console.log(response.data); 
+              // console.log(response.data);
             setUser(response.data)
         })
         .catch((error) => {
             console.error("Error fetching users:", error);
         });
 }, [])
-  
+
+useEffect(() => {
+  axios.get('http://localhost:8000/getallposts', { withCredentials: true })
+      .then((response) => {
+          // console.log(response.data)
+          setPosts(response.data)
+      })
+      .catch((error) => {
+          console.error("error fetching posts:", error);
+      })
+}, [])
+
 
   // http://localhost:8000/api/v1/users
   return (
@@ -86,7 +99,9 @@ const [user,setUser] = useState([])
                 {data.email}
                 </td>
                 <td class="px-6 py-4">
-                  $2999
+                {
+    posts.filter(post => post.author === data._id).length
+  }
                 </td>
                 <td class="px-6 py-4">
                   <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>

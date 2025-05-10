@@ -5,14 +5,14 @@ import axios from 'axios';
 const Home = () => {
     const [user, setUser] = useState([])
     const [posts, setPosts] = useState([])
-    console.log(new Date("2024-11-06T06:44:45.033Z").toLocaleDateString('en-GB'));
+    // console.log(new Date("2024-11-06T06:44:45.033Z").toLocaleDateString('en-GB'));
 
     useEffect(() => {
         axios.get('http://localhost:8000/getallusers', {
             withCredentials: true
         })
             .then((response) => {
-                //   console.log(response.data); 
+                  console.log(response.data); 
                 setUser(response.data)
             })
             .catch((error) => {
@@ -23,7 +23,7 @@ const Home = () => {
     useEffect(() => {
         axios.get('http://localhost:8000/getallposts', { withCredentials: true })
             .then((response) => {
-                // console.log(response.data)
+                console.log(response.data)
                 setPosts(response.data)
             })
             .catch((error) => {
