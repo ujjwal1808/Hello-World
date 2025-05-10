@@ -4,7 +4,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
@@ -12,15 +11,10 @@ import chatRoutes from "./routes/chats.route.js";
 import notificationRoutes from "./routes/notification.route.js";
 import connectionRoutes from "./routes/connection.route.js";
 import communityRoutes from './routes/communityRoutes.js';
-
 import { connectDB } from "./lib/db.js";
 import { Server } from "socket.io";
-<<<<<<< HEAD
-=======
-import chat from "./models/chats.model.js";
 import User from "./models/user.model.js";
 import Post from "./models/post.model.js";
->>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
 
 // Resolve __dirname in ES Module context
 const __filename = fileURLToPath(import.meta.url);
@@ -31,11 +25,16 @@ dotenv.config();
 
 // Create Express app
 const app = express();
-<<<<<<< HEAD
-const PORT = process.env.PORT || 8000;
-=======
 const PORT = process.env.PORT || 5000;
-const __dirname = path.resolve();
+
+// Connect to MongoDB
+connectDB();
+
+// Middlewares
+app.use(express.json({ limit: "5mb" }));
+app.use(cookieParser());
+
+// CORS configuration
 if (process.env.NODE_ENV !== "production") {
 	const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000'];
 
@@ -49,43 +48,32 @@ if (process.env.NODE_ENV !== "production") {
 		},
 		credentials: true
 	}));
+} else {
+	app.use(cors({
+		origin: "http://localhost:5173",
+		credentials: true
+	}));
 }
->>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
-
-// Connect to MongoDB
-connectDB();
-
-// Middlewares
-app.use(express.json({ limit: "5mb" }));
-app.use(cookieParser());
-app.use(cors({
-	origin: "http://localhost:5173",
-	credentials: true,
-}));
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/posts", postRoutes);
-app.use("/api/v1/chats", chatRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/connections", connectionRoutes);
-<<<<<<< HEAD
-app.use("/api/v1/community", communityRoutes);
-=======
 app.use("/api/v1/chats", chatRoutes);
-// app.use("/api/v1/user", chatRoutes);
+app.use("/api/v1/community", communityRoutes);
 
-app.get("/getallusers", async (req, res)=>{
-	const user = await User.find({});
-    res.send(user)
-})
+// Additional routes for admin functionalities
+app.get("/getallusers", async (req, res) => {
+	const users = await User.find({});
+	res.send(users);
+});
 
-app.get("/getallposts", async (req, res)=>{
+app.get("/getallposts", async (req, res) => {
 	const posts = await Post.find({});
-	res.send(posts)
-})
->>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
+	res.send(posts);
+});
 
 // Serve frontend in production
 if (process.env.NODE_ENV === "production") {
@@ -104,13 +92,8 @@ const server = app.listen(PORT, () => {
 const io = new Server(server, {
 	pingTimeout: 60000,
 	cors: {
-<<<<<<< HEAD
-		origin: "http://localhost:5173",
+		origin: "http://localhost:5173", // Add more origins if needed
 		credentials: true,
-=======
-	  origin: "http://localhost:5173"||"http://192.168.29.72:5173"||"http://localhost:3000",
-	  // credentials: true,
->>>>>>> 12898fe63615fee9a5fb315ac3f13e6171044237
 	},
 });
 

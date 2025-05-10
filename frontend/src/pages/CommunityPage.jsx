@@ -376,7 +376,8 @@ const CommunityPage = () => {
               className="bg-gray-200 p-2 rounded-md hover:bg-gray-300"
               title="Attach Media"
             >
-              <Paperclip size={18} />
+              <Paperclip size={18} /> 
+              {/* delete it  */}
             </button>
 
             <button
